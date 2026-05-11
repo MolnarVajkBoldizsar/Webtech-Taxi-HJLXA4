@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autó Adatlap - Szerkesztés</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header id="main-header">
+        <h1>Jármű Szerkesztése</h1>
+        <div id="nav-links">
+            <a href="#" id="back-link" class="btn" style="color: white; border: 1px solid white;">← Vissza a listához</a>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="card">
+            <h2>Adatok módosítása</h2>
+            <form id="update-form">
+                <!-- Rejtett mező az azonosítónak, a transzparencia jegyében -->
+                <input type="hidden" id="car-id">
+                
+                <label for="brand">Márka:</label>
+                <input type="text" id="brand" required>
+
+                <label for="model">Modell:</label>
+                <input type="text" id="model" required>
+
+                <label for="owner">Tulajdonos:</label>
+                <input type="text" id="owner" required title="Vezetéknév Keresztnév">
+
+                <label for="fuelUse">Fogyasztás (L/100km):</label>
+                <input type="number" id="fuelUse" step="0.1" required>
+
+                <label><input type="checkbox" id="electric"> Elektromos jármű</label>
+
+                <label for="dayOfCommission">Üzembe helyezés:</label>
+                <input type="date" id="dayOfCommission" required>
+
+                <button type="submit" class="btn primary">Változtatások mentése</button>
+            </form>
+            <div id="error-msg" class="error-msg hidden"></div>
+        </section>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            // 5. Szempont: Paraméterek transzparens átvétele
+            const params = new URLSearchParams(window.location.search);
+            const neptun = params.get('neptun');
+            const id = params.get('id');
+            const API_URL = `https://iit-playground.arondev.hu/api/${neptun}/car`;
+
+            // Vissza gomb linkjének frissítése a Neptun kóddal
+            document.getElementById('back-link').href = `index.html?neptun=${neptun}`;
+
+            const errorDiv = document.getElementById('error-msg');
+            const showError = (m) => {
+                errorDiv.textContent = m;
+                errorDiv.classList.remove('hidden');
+            };
+
+            // 1. Szempont: Fetch API (GET) - Egy autó adatainak betöltése
+            try {
+                const res = await fetch(`${API_URL}/${id}`);
+                if (!res.ok) throw new Error("Az autó adatai nem elérhetőek.");
+                
+                const car = await res.json();
+                
+                // Form kitöltése a kapott adatokkal
+                document.getElementById('car-id').value = car.id;
+                document.getElementById('brand').value = car.brand;
+                document.getElementById('model').value = car.model;
+                document.getElementById('owner').value = car.owner;
+                document.getElementById('fuelUse').value = car.fuelUse;
+                document.getElementById('electric').checked = car.electric;
+                document.getElementById('dayOfCommission').value = car.dayOfCommission;
+            } catch (e) {
+                showError(e.message);
+            }
+
+            // 1. Szempont: Fetch API (PUT) - Adatok frissítése
+            document.getElementById('update-form').onsubmit = async (e) => {
+                e.preventDefault();
+                
+                const updatedCar = {
+                    id: parseInt(document.getElementById('car-id').value),
+                    brand: document.getElementById('brand').value,
+                    model: document.getElementById('model').value,
+                    owner: document.getElementById('owner').value,
+                    fuelUse: parseFloat(document.getElementById('fuelUse').value),
+                    electric: document.getElementById('electric').checked,
+                    dayOfCommission: document.getElementById('dayOfCommission').value
+                };
+
+                try {
+                    const res = await fetch(API_URL, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(updatedCar)
+                    });
+
+                    const data = await res.json();
+                    if (!res.ok) throw new Error(data.message || "Sikertelen frissítés.");
+
+                    alert("Sikeres módosítás!");
+                    // Visszatérés a főoldalra transzparens módon
+                    window.location.href = `index.html?neptun=${neptun}`;
+                } catch (e) {
+                    showError(e.message);
+                }
+            };
+        });
+    </script>
+</body>
+</html>

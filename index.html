@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taxi Flotta Kezelő</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header id="main-header">
+        <h1>Taxi Flotta</h1>
+        <div>Neptun: <span id="display-neptun">Betöltés...</span></div>
+    </header>
+
+    <div id="neptun-modal" class="modal-overlay">
+    <div class="modal-card">
+        <h2>Üdvözöljük!</h2>
+        <p>Kérjük, adja meg a Neptun kódját a flotta eléréséhez:</p>
+        <input type="text" id="modal-neptun-input" placeholder="Pl. TEST01" maxlength="6">
+        <button id="modal-submit-btn" class="btn primary">Belépés</button>
+        <div id="modal-error" class="error-msg hidden" style="margin-top: 10px;"></div>
+    </div>
+    </div>
+
+    <main class="container">
+        <section class="card">
+            <h2>Új autó hozzáadása</h2>
+            <p>Minden hallgató maximum 10 autót tárolhat.</p>
+            <form id="create-form">
+                <input type="text" id="brand" placeholder="Márka" required>
+                <input type="text" id="model" placeholder="Modell" required>
+                <input type="text" id="owner" placeholder="Tulajdonos neve" required>
+                <input type="number" id="fuelUse" step="0.1" placeholder="Fogyasztás (L/100km)" required>
+                <label><input type="checkbox" id="electric"> Elektromos hajtás</label>
+                <input type="date" id="dayOfCommission" required title="Üzembe helyezés dátuma">
+                <button type="submit" class="btn primary">Autó mentése</button>
+            </form>
+            <div id="error-msg" class="error-msg hidden"></div>
+        </section>
+
+        <section class="card">
+            <h2>Aktuális járművek</h2>
+            <table id="cars-table" style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr>
+                        <th>Márka</th>
+                        <th>Modell</th>
+                        <th>Műveletek</th>
+                    </tr>
+                </thead>
+                <tbody id="cars-body"></tbody>
+            </table>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
