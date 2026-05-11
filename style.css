@@ -1,11 +1,9 @@
-/* 1. Tag szelektor */
 body { 
        font-family: 'Segoe UI', sans-serif; 
        background-color: #f0f2f5; 
        margin: 0; 
        color: #333; }
 
-/* 2. ID szelektor */
 #main-header { 
        background: #1a252f; 
        color: white; 
@@ -15,20 +13,17 @@ body {
        align-items: center; 
        box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
 
-/* 3. Class szelektor */
 .container { 
        max-width: 900px; 
        margin: 2rem auto; 
        padding: 1rem; }
 
-/* 4. Descendant (leszármazott) szelektor */
 section h2 { 
        color: #2c3e50; 
        border-bottom: 2px solid #3498db; 
        padding-bottom: 5px; 
        margin-top: 0; }
 
-/* 5. Kombinált Tag + Class */
 button.btn { 
        padding: 0.6rem 1.2rem;
        border: none; 
@@ -37,12 +32,10 @@ button.btn {
        font-weight: 600; 
        transition: all 0.2s; }
 
-/* 6. Pszeudo-osztály (állapot) */
 .btn:hover { 
        opacity: 0.85; 
        transform: translateY(-1px); }
 
-/* 7. Attribútum szelektor */
 input[type="text"], input[type="number"], input[type="date"] { 
        width: 100%; 
        padding: 10px; 
@@ -51,32 +44,26 @@ input[type="text"], input[type="number"], input[type="date"] {
        border-radius: 4px; 
        box-sizing: border-box; }
 
-/* 8. Gyerek szelektor */
 .card > form {
        display: flex; 
        flex-direction: column; }
 
-/* 9. Adjacent sibling (közvetlen testvér) */
 h2 + p { 
        color: #7f8c8d; 
        font-size: 0.9rem; }
 
-/* 10. Specifikus ID-n belüli elem */
 #cars-table th { 
        background-color: #34495e; 
        color: white; 
        text-align: left; 
        padding: 12px; }
 
-/* 11. Több osztály együttesen */
 .btn.primary { 
        background-color: #3498db; 
        color: white; }
 
-/* 12. Negatív állapot (rejtés) */
 .hidden { display: none !important; }
 
-/* 13. Hibaüzenet specifikus */
 .error-msg { 
        background: #e74c3c; 
        color: white; 
@@ -85,16 +72,13 @@ h2 + p {
        margin: 10px 0; 
        font-size: 0.9rem; }
 
-/* 14. Táblázat sor formázás */
 tr:nth-child(even) { background-color: #f9f9f9; }
 
-/* 15. Link formázás a kártyán belül */
 .card a { 
        color: #3498db; 
        text-decoration: none; 
        font-size: 0.9rem; }
 
-/* 16. Modal Overlay (Sötétített háttér) */
 .modal-overlay {
     position: fixed;
     top: 0; left: 0;
@@ -106,7 +90,6 @@ tr:nth-child(even) { background-color: #f9f9f9; }
     z-index: 1000;
 }
 
-/* 17. Modal Kártya */
 .modal-card {
     background: white;
     padding: 2rem;
