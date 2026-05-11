@@ -7,11 +7,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalBtn = document.getElementById('modal-submit-btn');
     const modalError = document.getElementById('modal-error');
 
-    // --- Alkalmazás szintű változók ---
-    let allCars = []; // A kereséshez tároljuk az összes autót
+    let allCars = []; 
     let API_URL = "";
 
-    // 1. BELÉPÉS KEZELÉSE
     if (neptun) {
         modal.classList.add('hidden');
         initializeApp(neptun.toUpperCase());
@@ -25,7 +23,6 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
         
-        // URL frissítése újratöltés nélkül
         const newUrl = `${window.location.pathname}?neptun=${val}`;
         window.history.pushState({ path: newUrl }, '', newUrl);
         
@@ -33,27 +30,22 @@ document.addEventListener('DOMContentLoaded', () => {
         initializeApp(val);
     };
 
-    // 2. AZ ALKALMAZÁS INDÍTÁSA
     function initializeApp(neptunCode) {
         neptun = neptunCode;
         API_URL = `https://iit-playground.arondev.hu/api/${neptun}/car`;
         document.getElementById('display-neptun').textContent = neptun;
 
-        // Kezdeti adatok betöltése
         loadCars();
     }
 
-    // 3. HIBAÜZENET MEGJELENÍTÉSE
     const showError = (msg) => {
         const div = document.getElementById('error-msg');
         div.textContent = msg;
         div.classList.remove('hidden');
-        // 5 másodperc után elrejti, de görget az elejére, hogy látható legyen
         window.scrollTo({ top: 0, behavior: 'smooth' });
         setTimeout(() => div.classList.add('hidden'), 5000);
     };
 
-    // 4. ADATOK BETÖLTÉSE (GET)
     async function loadCars() {
         try {
             const res = await fetch(API_URL);
@@ -65,7 +57,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // 5. TÁBLÁZAT KIRAJZOLÁSA
     function renderTable(cars) {
         const tbody = document.getElementById('cars-body');
         tbody.innerHTML = '';
@@ -89,7 +80,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 6. ÚJ AUTÓ MENTÉSE (POST)
     document.getElementById('create-form').onsubmit = async (e) => {
         e.preventDefault();
 
@@ -97,7 +87,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const fuelUse = parseFloat(document.getElementById('fuelUse').value);
         const owner = document.getElementById('owner').value.trim();
 
-        // Üzleti logika validáció küldés előtt
         if (owner.length < 3 || !owner.includes(' ')) {
             showError("A tulajdonos neve legalább két tagból álljon (szóköz)! ");
             return;
@@ -131,7 +120,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // 7. TÖRLÉS (DELETE) - Eseménydelegálással
     document.getElementById('cars-table').addEventListener('click', async (e) => {
         if (e.target.classList.contains('delete-btn')) {
             const id = e.target.getAttribute('data-id');
@@ -152,7 +140,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // 8. KERESÉS FUNKCIÓ
     const searchInput = document.getElementById('search-input');
     if (searchInput) {
         searchInput.addEventListener('input', (e) => {
